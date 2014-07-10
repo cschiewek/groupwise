@@ -2,7 +2,7 @@
 
 Wrapper for Groupwise SOAP web services.  Currently only targets Groupwise 2012 or higher.
 
-Currently, only authentication and free/busy lookup is implemented.
+Currently, only authentication and free/busy lookup are implemented.
 
 ## Installation
 

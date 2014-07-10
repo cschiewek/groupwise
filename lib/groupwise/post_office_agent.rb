@@ -28,8 +28,10 @@ module Groupwise
       return response
     end
 
-    def free_busy(email_addresses)
+    def free_busy(email_addresses, start_time = nil, end_time = nil)
       message = { free_busy_session_id: free_busy_session(email_addresses) }
+      message[:start_time] = start_time if start_time
+      message[:end_time] = end_time if end_time
       response = authenticated_request(:get_free_busy, message)[:free_busy_info]
     end
 
