@@ -1,0 +1,9 @@
+post_office_agent:
+  endpoint: 'http://127.0.0.1:7191/soap'
+  username: 'user'
+  app_name: 'TrustedApplication'
+  app_key:  'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+  version:  '12.0.2'
+  users: 
+    - 'john.doe@domain.com'
+    - 'jane.doe@domain.com'

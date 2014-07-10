@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- 
+================================================================================
+File:	archive.xsd
+
+Copyright (c) 2005-2008	Novell, Inc. All Rights Reserved.
+
+Use and redistribution of this work is subject to the developer license
+agreement through which this work is made available. Pursuant to that license
+agreement, Novell hereby grants You a royalty-free, non-exclusive license to
+include Novell's sample code in Your product(s) that interoperate with the
+applicable Novell product, and worldwide distribution rights to market,
+distribute, or sell Novell's sample code as a component of Your product.
+
+THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL NOVELL OR THE AUTHORS 
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF 
+OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+
+
+Alternatively, the contents of this file may be used under the terms of 
+GNU General Public License Version 2 (the "GPL") as explained below.  
+If you wish to allow use of your version of this file only under the terms 
+of the GPL, and not to allow others to use your version of this file under 
+the provisions appearing above, indicate your decision by deleting the 
+provisions above and replace them with the notice and other provisions required 
+by the GPL. If you do not delete the provisions above, a recipient may use 
+your version of this file under the above provisions of the GPL.
+
+
+This file is free software; you can redistribute it and/or modify it under the 
+terms of version 2 of the GNU General Public License as published by the 
+Free Software Foundation.  This program is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License 
+for more details.  You should have received a copy of the GNU General Public License 
+along with this program; if not, contact Novell, Inc.
+
+To contact Novell about this file by physical or electronic mail, you may find 
+current contact information at www.novell.com.
+================================================================================
+--><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schemas.novell.com/2007/05/GroupWise/archive" elementFormDefault="qualified" xmlns="http://schemas.novell.com/2007/05/GroupWise/archive" xmlns:tns="http://schemas.novell.com/2007/05/GroupWise/archive">
+
+	<xs:element name="acceptLevel" type="tns:AcceptLevel"/>
+	<xs:element name="code" type="xs:int"/>
+	<xs:element name="description" type="xs:string"/>
+	<xs:element name="displayName" type="xs:string"/>
+	<xs:element name="endDate" type="xs:dateTime"/>
+	<xs:element name="email" type="xs:string"/>
+	<xs:element name="id" type="tns:uid"/>
+	<xs:element name="modified" type="xs:dateTime"/>
+	<xs:element name="name" type="xs:string"/>
+	<xs:element name="place" type="xs:string"/>
+	<xs:element name="session" type="xs:string"/>
+	<xs:element name="startDate" type="xs:dateTime"/>
+	<xs:element name="subject" type="xs:string"/>
+	<xs:element name="uuid" type="tns:UUID"/>
+	<xs:element name="version" type="xs:unsignedInt"/>
+
+	<xs:simpleType name="AcceptLevel">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Free"/>
+			<xs:enumeration value="Tentative"/>
+			<xs:enumeration value="Busy"/>
+			<xs:enumeration value="OutOfOffice"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Alarm">
+		<xs:simpleContent>
+			<xs:extension base="xs:int">
+				<xs:attribute name="enabled" type="xs:boolean"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="Appointment">
+		<xs:complexContent>
+			<xs:extension base="tns:CalendarItem">
+				<xs:sequence>
+					<xs:element ref="tns:startDate" minOccurs="0"/>
+					<xs:element ref="tns:endDate" minOccurs="0"/>
+					<xs:element name="startDay" type="xs:date" minOccurs="0"/>
+					<xs:element name="endDay" type="xs:date" minOccurs="0"/>
+					<xs:element ref="tns:acceptLevel" minOccurs="0"/>
+					<xs:element name="alarm" type="tns:Alarm" minOccurs="0"/>
+					<xs:element name="allDayEvent" type="xs:boolean" minOccurs="0"/>
+					<xs:element ref="tns:place" minOccurs="0"/>
+					<xs:element name="timezone" type="tns:Timezone" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AttachmentID">
+		<xs:simpleContent>
+			<xs:extension base="tns:uid">
+				<xs:attribute name="itemReference" type="xs:boolean"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="AttachmentInfo">
+		<xs:sequence>
+			<xs:element name="attachment" type="tns:AttachmentItemInfo" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AttachmentItemInfo">
+		<xs:sequence>
+			<xs:element name="id" type="tns:AttachmentID" minOccurs="0"/>
+			<xs:element ref="tns:name" minOccurs="0"/>
+			<xs:element name="contentId" type="xs:string" minOccurs="0"/>
+			<xs:element name="contentType" type="xs:string" minOccurs="0"/>
+			<xs:element name="size" type="xs:unsignedInt" minOccurs="0"/>
+			<xs:element name="date" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="data" type="xs:base64Binary" minOccurs="0"/>
+			<xs:element name="hidden" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="isPersonal" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="hash" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Authentication"/>
+	<xs:complexType name="BoxEntry">
+		<xs:complexContent>
+			<xs:extension base="tns:ContainerItem">
+				<xs:sequence>
+					<xs:element name="status" type="tns:ItemStatus" minOccurs="0"/>
+					<xs:element name="thread" type="xs:string" minOccurs="0"/>
+					<xs:element name="msgId" type="xs:string" minOccurs="0"/>
+					<xs:element name="messageId" type="xs:string" minOccurs="0"/>
+					<xs:element name="source" type="tns:ItemSource" minOccurs="0"/>
+					<xs:element name="returnSentItemsId" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="delivered" type="xs:dateTime"/>
+					<xs:element name="class" type="tns:ItemClass" minOccurs="0"/>
+					<xs:element name="security" type="tns:ItemSecurity" minOccurs="0"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0"/>
+					<xs:element name="threading" type="tns:ItemThreading" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CalendarItem">
+		<xs:complexContent>
+			<xs:extension base="tns:Mail">
+				<xs:sequence>
+					<xs:element name="iCalId" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CategoryRefList">
+		<xs:sequence>
+			<xs:element name="category" type="tns:uid" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="primary" type="tns:uid"/>
+	</xs:complexType>
+  <xs:complexType name="CommentStatus">
+    <xs:simpleContent>
+      <xs:extension base="xs:dateTime">
+        <xs:attribute name="comment" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ContainerItem">
+		<xs:complexContent>
+			<xs:extension base="tns:Item">
+				<xs:sequence>
+					<xs:element name="container" type="tns:ContainerRef" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="categories" type="tns:CategoryRefList" minOccurs="0"/>
+					<xs:element name="created" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="customs" type="tns:CustomList" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ContainerRef">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="deleted" type="xs:dateTime"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="Custom">
+		<xs:sequence>
+			<xs:element name="field" type="xs:string"/>
+			<xs:element name="value" type="xs:string" minOccurs="0"/>
+			<xs:element name="locked" type="xs:boolean" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="type" type="tns:CustomType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="CustomList">
+		<xs:sequence>
+			<xs:element name="custom" type="tns:Custom" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CustomType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="String"/>
+			<xs:enumeration value="Numeric"/>
+			<xs:enumeration value="Date"/>
+			<xs:enumeration value="Binary"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Day">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:maxInclusive value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DayOfWeek">
+		<xs:simpleContent>
+			<xs:extension base="tns:WeekDay">
+				<xs:attribute name="occurrence" type="tns:OccurrenceType"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+  <xs:complexType name="DelegatedStatus">
+    <xs:simpleContent>
+      <xs:extension base="tns:CommentStatus">
+        <xs:attribute name="userid" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DelegateeStatus">
+    <xs:complexContent>
+      <xs:extension base="tns:RecipientStatus">
+        <xs:attribute name="userid" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Distribution">
+		<xs:sequence>
+			<xs:element name="from" type="tns:From" minOccurs="0"/>
+			<xs:element name="to" type="xs:string" minOccurs="0"/>
+			<xs:element name="cc" type="xs:string" minOccurs="0"/>
+			<xs:element name="bc" type="xs:string" minOccurs="0"/>
+			<xs:element name="recipients" type="tns:RecipientList" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="DistributionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="TO"/>
+			<xs:enumeration value="CC"/>
+			<xs:enumeration value="BC"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DocumentRef">
+		<xs:complexContent>
+			<xs:extension base="tns:Mail">
+				<xs:sequence>
+					<xs:element name="library" type="tns:NameAndEmail" minOccurs="0"/>
+					<xs:element name="documentNumber" type="xs:unsignedInt" minOccurs="0"/>
+					<xs:element name="versionNumber" type="xs:unsignedInt" minOccurs="0"/>
+					<xs:element name="versionDescription" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Filter">
+		<xs:sequence>
+			<xs:element name="element" type="tns:FilterElement" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="FilterDate">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Today"/>
+			<xs:enumeration value="Tomorrow"/>
+			<xs:enumeration value="ThisMonth"/>
+			<xs:enumeration value="ThisWeek"/>
+			<xs:enumeration value="ThisYear"/>
+			<xs:enumeration value="Yesterday"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="FilterElement">
+		<xs:sequence>
+			<xs:element name="op" type="tns:FilterOp"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FilterEntry">
+		<xs:complexContent>
+			<xs:extension base="tns:FilterElement">
+				<xs:sequence>
+					<xs:element name="field" type="xs:string" minOccurs="0"/>
+					<xs:element name="custom" type="tns:Custom" minOccurs="0"/>
+					<xs:element name="value" type="xs:string" minOccurs="0"/>
+					<xs:element name="date" type="tns:FilterDate" minOccurs="0"/>
+					<xs:element name="mask" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FilterGroup">
+		<xs:annotation>
+			<xs:documentation>
+				FilterGroup comprises FilterOp "and", "or" or "not"
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:FilterElement">
+				<xs:sequence>
+					<xs:element name="element" type="tns:FilterElement" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="FilterOp">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="and"/>
+			<xs:enumeration value="or"/>
+			<xs:enumeration value="not"/>
+			<xs:enumeration value="eq"/>
+			<xs:enumeration value="ne"/>
+			<xs:enumeration value="gt"/>
+			<xs:enumeration value="lt"/>
+			<xs:enumeration value="gte"/>
+			<xs:enumeration value="lte"/>
+			<xs:enumeration value="contains"/>
+			<xs:enumeration value="containsWord"/>
+			<xs:enumeration value="begins"/>
+			<xs:enumeration value="exists"/>
+			<xs:enumeration value="notExist"/>
+			<xs:enumeration value="isOf"/>
+			<xs:enumeration value="isNotOf"/>
+			<xs:enumeration value="fieldEqual"/>
+			<xs:enumeration value="fieldGTE"/>
+			<xs:enumeration value="fieldGT"/>
+			<xs:enumeration value="fieldLTE"/>
+			<xs:enumeration value="fieldLT"/>
+			<xs:enumeration value="fieldNE"/>
+			<xs:enumeration value="fieldDateEqual"/>
+			<xs:enumeration value="bitCare"/>
+			<xs:enumeration value="notContains"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="From">
+		<xs:complexContent>
+			<xs:extension base="tns:NameAndEmail">
+				<xs:sequence>
+					<xs:element name="replyTo" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="GMTOffset">
+		<xs:restriction base="xs:int">
+			<xs:minExclusive value="-86400"/>
+			<xs:maxExclusive value="86400"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Hour">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:maxInclusive value="23"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Item">
+		<xs:sequence>
+			<xs:element ref="tns:id" minOccurs="0"/>
+			<xs:element ref="tns:name" minOccurs="0"/>
+			<xs:element ref="tns:version" minOccurs="0"/>
+			<xs:element ref="tns:modified" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ItemClass">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Public"/>
+			<xs:enumeration value="Private"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ItemList">
+		<xs:sequence>
+			<xs:element name="item" type="tns:Item" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="offset" type="xs:int"/>
+		<xs:attribute name="count" type="xs:int"/>
+	</xs:complexType>
+	<xs:complexType name="ItemOptions">
+		<xs:sequence>
+			<xs:element name="priority" type="tns:ItemOptionsPriority" minOccurs="0" default="Standard"/>
+			<xs:element name="expires" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="delayDeliveryUntil" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="concealSubject" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="hidden" type="xs:boolean" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ItemOptionsPriority">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="High"/>
+			<xs:enumeration value="Standard"/>
+			<xs:enumeration value="Low"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ItemSecurity">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Normal"/>
+			<xs:enumeration value="Proprietary"/>
+			<xs:enumeration value="Confidential"/>
+			<xs:enumeration value="Secret"/>
+			<xs:enumeration value="TopSecret"/>
+			<xs:enumeration value="ForYourEyesOnly"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ItemSource">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="received"/>
+			<xs:enumeration value="sent"/>
+			<xs:enumeration value="draft"/>
+			<xs:enumeration value="personal"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ItemStatus">
+		<xs:sequence>
+			<xs:element name="accepted" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="completed" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="delegated" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="deleted" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="forwarded" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="private" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="opened" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="read" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="replied" type="xs:boolean" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ItemThreading">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="0"/>
+			<xs:element name="parent" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Mail">
+		<xs:complexContent>
+			<xs:extension base="tns:BoxEntry">
+				<xs:sequence>
+					<xs:element ref="tns:subject" minOccurs="0"/>
+					<xs:element name="originalSubject" type="xs:string" minOccurs="0"/>
+					<xs:element name="subjectPrefix" type="xs:string" minOccurs="0"/>
+					<xs:element name="distribution" type="tns:Distribution" minOccurs="0"/>
+					<xs:element name="message" type="tns:MessageBody" minOccurs="0"/>
+					<xs:element name="attachments" type="tns:AttachmentInfo" minOccurs="0"/>
+					<xs:element name="options" type="tns:ItemOptions" minOccurs="0"/>
+					<xs:element name="hasAttachment" type="xs:boolean" default="0" minOccurs="0"/>
+					<xs:element name="size" type="xs:int" minOccurs="0" default="0"/>
+					<xs:element name="subType" type="xs:string" minOccurs="0"/>
+					<xs:element name="xField" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="originalId" type="tns:uid" minOccurs="0"/>
+					<xs:element name="archiveId" type="xs:string" minOccurs="0"/>
+					<xs:element name="archived" type="xs:dateTime" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="internet" type="xs:boolean"/>
+				<xs:attribute name="stub" type="xs:boolean"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MessageBody">
+		<xs:sequence>
+			<xs:element name="part" type="tns:MessagePart" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MessagePart">
+		<xs:simpleContent>
+			<xs:extension base="xs:base64Binary">
+				<xs:attribute name="id" type="tns:uid" use="optional"/>
+				<xs:attribute name="contentId" type="xs:string" default=""/>
+				<xs:attribute name="contentType" type="xs:string" default="text/plain" use="optional"/>
+				<xs:attribute name="length" type="xs:int" default="0" use="optional"/>
+				<xs:attribute name="offset" type="xs:int" default="0" use="optional"/>
+				<xs:attribute name="hash" type="xs:string" default="" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="Minute">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:maxInclusive value="59"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Month">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:maxInclusive value="11"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="NameAndEmail">
+		<xs:sequence>
+			<xs:element ref="tns:displayName" minOccurs="0"/>
+			<xs:element ref="tns:email" minOccurs="0"/>
+			<xs:element ref="tns:uuid" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Note">
+		<xs:complexContent>
+			<xs:extension base="tns:CalendarItem">
+				<xs:sequence>
+					<xs:element name="startDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="timezone" type="tns:Timezone" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="OccurrenceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="First"/>
+			<xs:enumeration value="Second"/>
+			<xs:enumeration value="Third"/>
+			<xs:enumeration value="Fourth"/>
+			<xs:enumeration value="Fifth"/>
+			<xs:enumeration value="Last"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PhoneFlags">
+		<xs:sequence>
+			<xs:element name="called" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="pleaseCall" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="willCall" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="returnedYourCall" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="wantsToSeeYou" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="cameToSeeYou" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="urgent" type="xs:boolean" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PhoneMessage">
+		<xs:complexContent>
+			<xs:extension base="tns:Mail">
+				<xs:sequence>
+					<xs:element name="caller" type="xs:string" minOccurs="0"/>
+					<xs:element name="company" type="xs:string" minOccurs="0"/>
+					<xs:element name="phone" type="xs:string" minOccurs="0"/>
+					<xs:element name="flags" type="tns:PhoneFlags" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Recipient">
+		<xs:complexContent>
+			<xs:extension base="tns:NameAndEmail">
+				<xs:sequence>
+					<xs:element name="distType" type="tns:DistributionType" minOccurs="0" default="TO"/>
+					<xs:element name="recipType" type="tns:RecipientType" minOccurs="0" default="User"/>
+          <xs:element name="recipientStatus" type="tns:RecipientStatus" minOccurs="0" maxOccurs="1"/>
+          <xs:element ref="tns:acceptLevel" minOccurs="0"/>
+        </xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RecipientList">
+		<xs:sequence>
+			<xs:element name="recipient" type="tns:Recipient" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+  <xs:complexType name="RecipientStatus">
+    <xs:sequence>
+      <xs:element name="delivered" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="undeliverable" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="transferred" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="transferDelayed" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="transferFailed" type="tns:TransferFailedStatus" minOccurs="0"/>
+      <xs:element name="downloaded" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="downloadedByThirdParty" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="retractRequested" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="retracted" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="opened" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="deleted" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="undeleted" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="purged" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="accepted" type="tns:CommentStatus" minOccurs="0"/>
+      <xs:element name="declined" type="tns:CommentStatus" minOccurs="0"/>
+      <xs:element name="replied" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="forwarded" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="shared" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="started" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="completed" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="incomplete" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="delegated" type="tns:DelegatedStatus" minOccurs="0"/>
+      <xs:element name="delegateeStatus" type="tns:DelegateeStatus" minOccurs="0" maxOccurs="unbounded"/>
+      <!-- USERID property specifies delegatee -->
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="RecipientType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="User"/>
+			<xs:enumeration value="Resource"/>
+			<xs:enumeration value="PersonalGroup"/>
+			<xs:enumeration value="SystemGroup"/>
+			<xs:enumeration value="PersonalGroupMember"/>
+			<xs:enumeration value="SystemGroupMember"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Status">
+		<xs:sequence>
+			<xs:element ref="tns:code"/>
+			<xs:element ref="tns:description" minOccurs="0"/>
+			<xs:element name="info" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Task">
+		<xs:complexContent>
+			<xs:extension base="tns:CalendarItem">
+				<xs:sequence>
+					<xs:element name="startDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="dueDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="assignedDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="taskPriority" type="xs:string" minOccurs="0"/>
+					<xs:element name="completed" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="timezone" type="tns:Timezone" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Timezone">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="0"/>
+			<xs:element ref="tns:description" minOccurs="0"/>
+			<xs:element name="daylight" type="tns:TimezoneComponent" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="standard" type="tns:TimezoneComponent" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TimezoneComponent">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="0"/>
+			<xs:element name="month" type="tns:Month" minOccurs="0"/>
+<!--		<xs:choice> -->
+			<xs:element name="day" type="tns:Day" minOccurs="0"/>
+			<xs:element name="dayOfWeek" type="tns:DayOfWeek" minOccurs="0"/>
+<!--		</xs:choice> -->
+			<xs:element name="hour" type="tns:Hour" minOccurs="0"/>
+			<xs:element name="minute" type="tns:Minute" minOccurs="0"/>
+			<xs:element name="offset" type="tns:GMTOffset"/>
+		</xs:sequence>
+	</xs:complexType>
+  <xs:complexType name="TransferFailedStatus">
+    <xs:complexContent>
+      <xs:extension base="tns:RecipientStatus">
+        <xs:attribute name="FailureReason" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TrustedApplication">
+		<xs:complexContent>
+			<xs:extension base="tns:Authentication">
+				<xs:sequence>
+					<xs:element name="username" type="xs:string"/>
+					<xs:element name="name" type="xs:string"/>
+					<xs:element name="key" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="uid">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[^@]+(@*)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UUID">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="WeekDay">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Sunday"/>
+			<xs:enumeration value="Monday"/>
+			<xs:enumeration value="Tuesday"/>
+			<xs:enumeration value="Wednesday"/>
+			<xs:enumeration value="Thursday"/>
+			<xs:enumeration value="Friday"/>
+			<xs:enumeration value="Saturday"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+   <xs:element name="cancelReadRequest">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="cursor" type="xs:int" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="cancelReadResponse">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="status" type="tns:Status"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+  <xs:element name="loginRequest">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="auth" type="tns:Authentication"/>
+            <xs:element name="language" type="xs:language"/>
+            <xs:element name="version" type="xs:decimal"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="loginResponse">
+      <xs:complexType>
+         <xs:sequence>
+			   <xs:element name="session" type="xs:string" minOccurs="0"/>
+            <xs:element name="status" type="tns:Status"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="logoutRequest">
+      <xs:complexType>
+         <xs:sequence>
+			   <xs:element name="session" type="xs:string" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="logoutResponse">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="status" type="tns:Status"/>
+         </xs:sequence>
+      </xs:complexType>
+	</xs:element>
+   <xs:element name="readArchiveRequest">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="filter" type="tns:Filter" minOccurs="0"/>
+            <xs:element name="cursor" type="xs:int" minOccurs="0"/>
+            <xs:element name="count" type="xs:int" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="readArchiveResponse">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="cursor" type="xs:int" minOccurs="0"/>
+            <xs:element name="items" type="tns:ItemList" minOccurs="0"/>
+            <xs:element name="status" type="tns:Status"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="readAttachmentRequest">
+      <xs:annotation>
+         <xs:documentation>
+				This work only for file attachments.
+				If you try to specify an embedded item, you will get an error.
+				If you specify offset = 0 and length = -1,
+					you will receive the whole attachment.
+				You can supply other values for offset and length to receive
+					a part of the attachment.
+			</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="id" type="tns:uid"/>
+            <xs:element name="offset" type="xs:int"/>
+            <xs:element name="length" type="xs:int"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="readAttachmentResponse">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="part" type="tns:MessagePart" minOccurs="0"/>
+            <xs:element name="status" type="tns:Status"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="readItemRequest">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="id" type="tns:uid" minOccurs="0"/>
+				<xs:element name="archiveId" type="xs:string" minOccurs="0"/>
+				<xs:element name="originalId" type="xs:string" minOccurs="0"/>
+            <xs:element name="view" type="xs:string" nillable="1"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="readItemResponse">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="item" type="tns:Item" minOccurs="0"/>
+            <xs:element name="status" type="tns:Status"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="restoreRequest">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="id" type="tns:uid"/>
+            <xs:element name="stub" type="xs:boolean" default="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="restoreResponse">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="status" type="tns:Status"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="stubRequest">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="id" type="tns:uid"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="stubResponse">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="status" type="tns:Status"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+</xs:schema>   
+

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- 
+================================================================================
+File:	archive.wsdl
+
+Copyright (c) 2005-2008	Novell, Inc. All Rights Reserved.
+
+Use and redistribution of this work is subject to the developer license
+agreement through which this work is made available. Pursuant to that license
+agreement, Novell hereby grants You a royalty-free, non-exclusive license to
+include Novell's sample code in Your product(s) that interoperate with the
+applicable Novell product, and worldwide distribution rights to market,
+distribute, or sell Novell's sample code as a component of Your product.
+
+THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL NOVELL OR THE AUTHORS 
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF 
+OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+
+
+Alternatively, the contents of this file may be used under the terms of 
+GNU General Public License Version 2 (the "GPL") as explained below.  
+If you wish to allow use of your version of this file only under the terms 
+of the GPL, and not to allow others to use your version of this file under 
+the provisions appearing above, indicate your decision by deleting the 
+provisions above and replace them with the notice and other provisions required 
+by the GPL. If you do not delete the provisions above, a recipient may use 
+your version of this file under the above provisions of the GPL.
+
+
+This file is free software; you can redistribute it and/or modify it under the 
+terms of version 2 of the GNU General Public License as published by the 
+Free Software Foundation.  This program is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License 
+for more details.  You should have received a copy of the GNU General Public License 
+along with this program; if not, contact Novell, Inc.  
+
+To contact Novell about this file by physical or electronic mail, you may find 
+current contact information at www.novell.com.
+================================================================================
+--><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://schemas.novell.com/2007/05/GroupWise/archive.wsdl" xmlns:tns="http://schemas.novell.com/2007/05/GroupWise/archive.wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:archive="http://schemas.novell.com/2007/05/GroupWise/archive" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+   
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://schemas.novell.com/2007/05/GroupWise/archive" schemaLocation="archive.xsd"/>
+		</schema>		
+	</types>
+
+   <message name="sessionMessage">
+      <part name="sessionId" element="archive:session"/>
+   </message>
+
+   <message name="cancelReadRequestMessage">
+      <part name="cancelReadReq" element="archive:cancelReadRequest"/>
+   </message>
+   <message name="cancelReadResponseMessage">
+      <part name="cancelReadRes" element="archive:cancelReadResponse"/>
+   </message>
+
+   <message name="loginRequestMessage">
+      <part name="loginReq" element="archive:loginRequest"/>
+   </message>
+
+   <message name="loginResponseMessage">
+      <part name="loginRes" element="archive:loginResponse"/>
+   </message>
+
+   <message name="logoutRequestMessage">
+      <part name="logoutReq" element="archive:logoutRequest"/>
+   </message>
+   <message name="logoutResponseMessage">
+      <part name="logoutRes" element="archive:logoutResponse"/>
+	</message>
+
+   <message name="readArchiveRequestMessage">
+      <part name="readArchiveReq" element="archive:readArchiveRequest"/>
+   </message>
+   <message name="readArchiveResponseMessage">
+      <part name="readArchiveRes" element="archive:readArchiveResponse"/>
+   </message>
+
+   <message name="readAttachmentRequestMessage">
+      <part name="readAttachmentReq" element="archive:readAttachmentRequest"/>
+	</message>
+   <message name="readAttachmentResponseMessage">
+      <part name="readAttachmentRes" element="archive:readAttachmentResponse"/>
+   </message>
+
+   <message name="readItemRequestMessage">
+      <part name="readItemReq" element="archive:readItemRequest"/>
+   </message>
+   <message name="readItemResponseMessage">
+      <part name="readItemRes" element="archive:readItemResponse"/>
+   </message>
+
+   <message name="restoreRequestMessage">
+      <part name="restoreReq" element="archive:restoreRequest"/>
+   </message>
+   <message name="restoreResponseMessage">
+      <part name="restoreRes" element="archive:restoreResponse"/>
+   </message>
+
+   <message name="stubRequestMessage">
+      <part name="stubReq" element="archive:stubRequest"/>
+   </message>
+   <message name="stubResponseMessage">
+      <part name="stubRes" element="archive:stubResponse"/>
+   </message>
+
+   <portType name="GroupWiseArchivePortType">
+
+     <operation name="cancelReadRequest">
+       <input message="tns:cancelReadRequestMessage"/>
+       <output message="tns:cancelReadResponseMessage"/>
+     </operation>
+
+     <operation name="loginRequest">
+       <input message="tns:loginRequestMessage"/>
+       <output message="tns:loginResponseMessage"/>
+     </operation>
+
+     <operation name="logoutRequest">
+       <input message="tns:logoutRequestMessage"/>
+       <output message="tns:logoutResponseMessage"/>
+	 </operation>
+
+     <operation name="readArchiveRequest">
+       <input message="tns:readArchiveRequestMessage"/>
+       <output message="tns:readArchiveResponseMessage"/>
+     </operation>
+
+     <operation name="readAttachmentRequest">
+       <input message="tns:readAttachmentRequestMessage"/>
+       <output message="tns:readAttachmentResponseMessage"/>
+     </operation>
+
+     <operation name="readItemRequest">
+       <input message="tns:readItemRequestMessage"/>
+       <output message="tns:readItemResponseMessage"/>
+     </operation>
+
+     <operation name="restoreRequest">
+       <input message="tns:restoreRequestMessage"/>
+       <output message="tns:restoreResponseMessage"/>
+     </operation>
+
+     <operation name="stubRequest">
+       <input message="tns:stubRequestMessage"/>
+       <output message="tns:stubResponseMessage"/>
+     </operation>
+
+   </portType>
+
+  <binding name="GroupWiseArchiveBinding" type="tns:GroupWiseArchivePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <operation name="cancelReadRequest">
+      <soap:operation soapAction="cancelReadRequest" style="document"/>
+      <input>
+		<soap:header message="tns:sessionMessage" part="sessionId" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  
+    <operation name="loginRequest">
+      <soap:operation soapAction="loginRequest" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="logoutRequest">
+      <soap:operation soapAction="logoutRequest" style="document"/>
+      <input>
+		<soap:header message="tns:sessionMessage" part="sessionId" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+	</operation>
+
+    <operation name="readArchiveRequest">
+      <soap:operation soapAction="readArchiveRequest" style="document"/>
+      <input>
+		<soap:header message="tns:sessionMessage" part="sessionId" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="readAttachmentRequest">
+      <soap:operation soapAction="readAttachmentRequest" style="document"/>
+      <input>
+		<soap:header message="tns:sessionMessage" part="sessionId" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="readItemRequest">
+      <soap:operation soapAction="readItemRequest" style="document"/>
+      <input>
+		<soap:header message="tns:sessionMessage" part="sessionId" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="restoreRequest">
+      <soap:operation soapAction="restoreRequest" style="document"/>
+      <input>
+		<soap:header message="tns:sessionMessage" part="sessionId" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="stubRequest">
+      <soap:operation soapAction="stubRequest" style="document"/>
+      <input>
+		<soap:header message="tns:sessionMessage" part="sessionId" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+   </binding>
+
+   <service name="GroupwiseArchiveService">
+
+      <port binding="tns:GroupWiseArchiveBinding" name="GroupWiseArchivePort">
+         <documentation>
+            The default port for the GroupWise Archive is the same as the SOAP protocol - 7151.
+         </documentation>
+			<soap:address location="http://localhost:7151/gwarchive"/>
+      </port>
+
+   </service>
+
+</definitions>
