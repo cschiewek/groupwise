@@ -18,7 +18,7 @@ module Groupwise
     def wsdl
       @wsdl ||= begin
         wsdl_version = Groupwise.wsdl_version(version)
-        "./contrib/novell/GW#{wsdl_version}/groupwise.wsdl"
+        File.expand_path("../../../contrib/novell/GW#{wsdl_version}/groupwise.wsdl", __FILE__)
       end
     end
 

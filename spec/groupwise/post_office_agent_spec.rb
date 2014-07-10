@@ -19,7 +19,7 @@ describe PostOfficeAgent do
   end
 
   it 'should set the wsdl' do
-    expect(@poa.wsdl).to eq('./contrib/novell/GW1201/groupwise.wsdl')
+    expect(@poa.wsdl.split('/').last).to eq('groupwise.wsdl')
   end
 
   it 'should have a Savon client' do
