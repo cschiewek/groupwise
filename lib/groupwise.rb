@@ -2,6 +2,7 @@ require 'savon'
 require 'groupwise/version'
 
 module Groupwise
+  require 'groupwise/free_busy_session_message'
   require 'groupwise/post_office_agent'
 
   def self.wsdl_version(version)

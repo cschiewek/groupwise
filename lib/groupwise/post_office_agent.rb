@@ -29,9 +29,7 @@ module Groupwise
     end
 
     def free_busy(email_addresses, start_time = nil, end_time = nil)
-      message = { free_busy_session_id: free_busy_session(email_addresses) }
-      message[:start_time] = start_time if start_time
-      message[:end_time] = end_time if end_time
+      message = { free_busy_session_id: free_busy_session(email_addresses, start_time, end_time) }
       response = authenticated_request(:get_free_busy, message)[:free_busy_info]
     end
 
@@ -57,10 +55,10 @@ module Groupwise
       response.body["#{method}_response".to_sym]
     end
 
-    def free_busy_session(email_addresses)
+    def free_busy_session(email_addresses, start_time = nil, end_time = nil)
       @free_busy_session ||= begin
-        users = email_addresses.map{|email| { user: { email: email } } }.first
-        response = authenticated_request(:start_free_busy_session, { users: users })
+        message = Groupwise::FreeBusySessionMessage.new(email_addresses, start_time, end_time)
+        response = authenticated_request(:start_free_busy_session, message)
         response[:free_busy_session_id]
       end 
     end
