@@ -57,7 +57,7 @@ module Groupwise
 
     def free_busy_session(email_addresses, start_time = nil, end_time = nil)
       @free_busy_session ||= begin
-        message = Groupwise::FreeBusySessionMessage.new(email_addresses, start_time, end_time)
+        message = FreeBusySessionMessage.new(email_addresses, start_time, end_time)
         response = authenticated_request(:start_free_busy_session, message)
         response[:free_busy_session_id]
       end 
