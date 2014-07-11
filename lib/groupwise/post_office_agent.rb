@@ -28,8 +28,9 @@ module Groupwise
       return response
     end
 
-    def free_busy(email_addresses, start_time = nil, end_time = nil)
+    def free_busy(email_addresses, wait_time = 0, start_time = nil, end_time = nil)
       message = { free_busy_session_id: free_busy_session(email_addresses, start_time, end_time) }
+      sleep wait_time
       response = authenticated_request(:get_free_busy, message)[:free_busy_info]
     end
 
